@@ -12,9 +12,15 @@ let state = {
 };
 
 // Choose random person
-
 const randomNumber = Math.floor(Math.random() * (db.length + 1)); 
 let myPerson = db[randomNumber];
+
+function checkState() {
+    if (state.personsLeft.length === 1) {
+        state.message =
+            `Congratulations! You found out that I thought of ${myPerson} in ${turn} turns!`
+    }
+}
 
 const typeDefs = `
     type Person {
@@ -96,6 +102,7 @@ const resolvers = {
                     .filter(person => person.hairColor !== args.attr);
             }
 
+            checkState();
             return state;
         },
         hairStyle: (parent, args, ctx, info) => {
@@ -115,28 +122,120 @@ const resolvers = {
                     .filter(person => person.hairStyle !== args.attr);
             }
 
+            checkState();
             return state;
         },
         hat: () => {
-            return db.filter(person => person.hat);
+            state.turn++;
+
+            if (myPerson.hat) {
+                state.message = `Yes, my person wears a hat.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.hat);
+            } else {
+                state.message = `No, my person does not wear a hat.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => !person.hat);
+            }
+
+            checkState();
+            return state;
         },
         nose: (parent, args, ctx, info) => {
-            return db.filter(person => person.nose === args.attr);
+            state.turn++;
+
+            if (args.attr === myPerson.nose) {
+                state.message = `Yes, my person has a ${args.attr.toLowerCase()} nose.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.nose === args.attr);
+            } else {
+                state.message = `No, my person does not have a ${args.attr.toLowerCase()} nose.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.nose !== args.attr);
+            }
+
+            checkState();
+            return state;
         },
         beard: () => {
-            return db.filter(person => person.beard);
+            state.turn++;
+
+            if (myPerson.beard) {
+                state.message = `Yes, my person has a beard.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.beard);
+            } else {
+                state.message = `No, my person does not have a beard.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => !person.beard);
+            }
+
+            checkState();
+            return state;
         },
         gender: (parent, args, ctx, info) => {
-            return db.filter(person => person.gender === args.attr);
+            state.turn++;
+
+            if (args.attr === myPerson.gender) {
+                state.message = `Yes, my person is ${args.attr.toLowerCase()}.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.gender === args.attr);
+            } else {
+                state.message = `No, my person is not ${args.attr.toLowerCase()}.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.gender !== args.attr);
+            }
+
+            checkState();
+            return state;
         },
         glasses: () => {
-            return db.filter(person => person.glasses);
+            state.turn++;
+
+            if (myPerson.glasses) {
+                state.message = `Yes, my person wears glasses.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.glasses);
+            } else {
+                state.message = `No, my person does not wear glasses.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => !person.glasses);
+            }
+
+            checkState();
+            return state;
         },
         eyeColor: (parent, args, ctx, info) => {
-            return db.filter(person => person.eyeColor === args.attr);
+            state.turn++;
+
+            if (args.attr === myPerson.eyeColor) {
+                state.message = `Yes, my person has ${args.attr.toLowerCase()} eyes.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.eyeColor === args.attr);
+            } else {
+                state.message = `No, my person does not have ${args.attr.toLowerCase()} eyes.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.eyeColor !== args.attr);
+            }
+
+            checkState();
+            return state;
         },
         mouth: (parent, args, ctx, info) => {
-            return db.filter(person => person.mouth === args.attr);
+            state.turn++;
+
+            if (args.attr === myPerson.mouth) {
+                state.message = `Yes, my person has a ${args.attr.toLowerCase()} mouth.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.mouth === args.attr);
+            } else {
+                state.message = `No, my person does not have a ${args.attr.toLowerCase()} mouth.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.mouth !== args.attr);
+            }
+
+            checkState();
+            return state;
         },
     }
 }
