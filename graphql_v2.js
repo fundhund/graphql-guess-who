@@ -18,7 +18,7 @@ let myPerson = db[randomNumber];
 function checkState() {
     if (state.personsLeft.length === 1) {
         state.message =
-            `Congratulations! You found out that I thought of ${myPerson} in ${turn} turns!`
+            `Congratulations! You found out that I thought of ${myPerson.name.toUpperCase()} in ${state.turn} turns!`
     }
 }
 
