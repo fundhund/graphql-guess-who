@@ -68,7 +68,7 @@ It is therefore necessary to define these properties as the desired response.
 
 ---
 
-## Examples
+## Gameplay example
 
 ### Request
 
@@ -240,3 +240,22 @@ _"Does your person wear a hat?"_
 
 ---
 
+## Guessing
+
+It is also possible to guess a name directly:
+
+```javascript
+query {
+  name(attr: ERIC) {
+    turn
+    message
+    personsLeft {
+      name
+    }
+  }
+}
+```
+
+Names are enums and have to be written in all caps.
+
+---

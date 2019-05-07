@@ -54,6 +54,7 @@ const typeDefs = `
         glasses: State!
         eyeColor(attr: EyeColor!): State!
         mouth(attr: Size!): State!
+        name(attr: Name!): State!
     }
 
     enum HairColor {
@@ -83,6 +84,33 @@ const typeDefs = `
     enum EyeColor {
         BLUE
         BROWN
+    }
+
+    enum Name {
+        ALEX
+        ALFRED
+        ANITA
+        ANNE
+        BERNARD
+        BILL
+        CHARLES
+        CLAIRE
+        DAVID
+        ERIC
+        FRANS
+        GEORGE
+        HERMAN
+        JOE
+        MARIA
+        MAX
+        PAUL
+        PETER
+        PHILIP
+        RICHARD
+        ROBERT
+        SAM
+        SUSAN
+        TOM
     }
 `;
 
@@ -235,6 +263,20 @@ const resolvers = {
                 state.message = `No, my person does not have a ${args.attr.toLowerCase()} mouth.`;
                 state.personsLeft = state.personsLeft
                     .filter(person => person.mouth !== args.attr);
+            }
+
+            checkState();
+            return state;
+        },
+        name: (parent, args, ctx, info) => {
+            state.turn++;
+
+            if (args.attr === myPerson.name.toUpperCase()) {
+                state.personsLeft = [myPerson];
+            } else {
+                state.message = `No, ${args.attr} is not the one you are looking for.`;
+                state.personsLeft = state.personsLeft
+                    .filter(person => person.name.toUpperCase() !== args.attr);
             }
 
             checkState();
