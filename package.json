@@ -4,7 +4,9 @@
   "description": "",
   "main": "db.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "v1": "nodemon graphql_v1.js",
+    "v2": "nodemon graphql_v2.js"
   },
   "keywords": [],
   "author": "",

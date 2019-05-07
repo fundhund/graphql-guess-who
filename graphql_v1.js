@@ -33,6 +33,7 @@ const typeDefs = `
         BLACK
         BLOND
         BROWN
+        RED
         WHITE
     }
 
