@@ -88,7 +88,10 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        state: () => state,
+        state: () => {
+            state.message = '';
+            return state;
+        },
         hairColor: (parent, args, ctx, info) => {
             state.turn++;
 
