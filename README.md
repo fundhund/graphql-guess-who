@@ -292,7 +292,7 @@ query {
 
 ---
 
-### Adding a person
+## Adding a person
 
 `addPerson` takes a `PersonInput` object as input. `PersonInput` consists of all person properties except `id`. All fields are required. Names must be unique.
 
@@ -352,7 +352,7 @@ mutation {
 
 ---
 
-### Deleting a person
+## Deleting a person
 
 To get rid of an unpleasant person, the `deletePerson` method must be called with a name as input. Restarting the game does not bring the deleted person back. In this case, the server must be restarted.
 
