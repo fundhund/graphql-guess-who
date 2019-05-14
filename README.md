@@ -258,3 +258,154 @@ query {
 ```
 
 ---
+
+## Restart Game
+
+### Request
+
+```javascript
+query {
+  restart {
+    turn
+    message
+    personsLeft {
+      name
+    }
+  }
+}
+```
+### Response
+
+```javascript
+{
+  "data": {
+    "restart": {
+      "turn": 0,
+      "message": "New game.",
+      "personsLeft": [
+        ...
+      ]
+    }
+  }
+}
+```
+
+---
+
+### Adding a person
+
+`addPerson` takes a `PersonInput` object as input. `PersonInput` consists of all person properties except `id`. All fields are required. Names must be unique.
+
+### Request
+
+```javascript
+mutation {
+  addPerson(
+    attr: {
+      name: "Spongebob"
+      hairColor: BLACK
+      hairStyle: BALD
+      hat: false
+      nose: SMALL
+      beard: false
+      gender: MALE
+      glasses: false
+      eyeColor: BLUE
+      mouth: BIG
+    }
+  ) {
+    id
+    name
+    hairColor
+    hairStyle
+    hat
+    nose
+    beard
+    gender
+    glasses
+    eyeColor
+    mouth
+  }
+}
+```
+### Response
+
+```javascript
+{
+  "data": {
+    "addPerson": {
+      "id": 25,
+      "name": "Spongebob",
+      "hairColor": "BLACK",
+      "hairStyle": "BALD",
+      "hat": false,
+      "nose": "SMALL",
+      "beard": false,
+      "gender": "MALE",
+      "glasses": false,
+      "eyeColor": "BLUE",
+      "mouth": "BIG"
+    }
+  }
+}
+```
+
+---
+
+### Deleting a person
+
+To get rid of an unpleasant person, the `deletePerson` method must be called with a name as input. Restarting the game does not bring the deleted person back. In this case, the server must be restarted.
+
+### Request
+
+```javascript
+mutation {
+  addPerson(
+    attr: {
+      name: "Spongebob"
+      hairColor: BLACK
+      hairStyle: BALD
+      hat: false
+      nose: SMALL
+      beard: false
+      gender: MALE
+      glasses: false
+      eyeColor: BLUE
+      mouth: BIG
+    }
+  ) {
+    id
+    name
+    hairColor
+    hairStyle
+    hat
+    nose
+    beard
+    gender
+    glasses
+    eyeColor
+    mouth
+  }
+}
+```
+### Response
+
+```javascript
+{
+  "data": {
+    "addPerson": {
+      "id": 25,
+      "name": "Spongebob",
+      "hairColor": "BLACK",
+      "hairStyle": "BALD",
+      "hat": false,
+      "nose": "SMALL",
+      "beard": false,
+      "gender": "MALE",
+      "glasses": false,
+      "eyeColor": "BLUE",
+      "mouth": "BIG"
+    }
+  }
+}
+```
