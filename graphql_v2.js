@@ -311,7 +311,7 @@ const resolvers = {
             }
 
             if (db.some(person => person.name.toUpperCase() === args.attr.name.toUpperCase())) {
-                return null;
+                throw new Error(`${args.attr.name.toUpperCase()} already exists.`);
             } else {
                 db.push(person);
                 state.reset();
@@ -322,9 +322,12 @@ const resolvers = {
         deletePerson: (parent, args, ctx, info) => {
             let person = db.find(person => person.name.toUpperCase() === args.attr.toUpperCase());
 
-            db.splice(db.indexOf(person), 1);
-
-            return person;
+            if (!person) {
+                throw new Error(`${args.attr.toUpperCase()} not found.`);
+            } else {
+                db.splice(db.indexOf(person), 1);
+                return person;
+            }
         }
     }
 }
