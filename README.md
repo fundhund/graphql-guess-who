@@ -6,7 +6,7 @@ This implementation can be played in the GraphQL playground (`http://localhost:4
 
 ---
 
-## Question Methods
+## Question methods
 
 ```javascript
 hairColor(attr: BLACK)
@@ -259,7 +259,7 @@ query {
 
 ---
 
-## Restart Game
+## Restart game
 
 ### Request
 
@@ -360,20 +360,7 @@ To get rid of an unpleasant person, the `deletePerson` method must be called wit
 
 ```javascript
 mutation {
-  addPerson(
-    attr: {
-      name: "Spongebob"
-      hairColor: BLACK
-      hairStyle: BALD
-      hat: false
-      nose: SMALL
-      beard: false
-      gender: MALE
-      glasses: false
-      eyeColor: BLUE
-      mouth: BIG
-    }
-  ) {
+  deletePerson(attr: "Spongebob") {
     id
     name
     hairColor
@@ -393,8 +380,77 @@ mutation {
 ```javascript
 {
   "data": {
-    "addPerson": {
-      "id": 25,
+    "deletePerson": {
+      "id": 29,
+      "name": "Spongebob",
+      "hairColor": "BLACK",
+      "hairStyle": "BALD",
+      "hat": false,
+      "nose": "SMALL",
+      "beard": false,
+      "gender": "MALE",
+      "glasses": false,
+      "eyeColor": "BLUE",
+      "mouth": "BIG"
+    }
+  }
+}
+```
+
+---
+
+## Using fragments
+
+Instead of defining every single property you want the server to return every time you make a request, you can use a handy tool called 'fragments'.
+
+```javascript
+fragment personFields on Person {
+  id
+  name
+  hairColor
+  hairStyle
+  hat
+  nose
+  beard
+  gender
+  glasses
+  eyeColor
+  mouth
+}
+```
+
+Fragments contain a set of properties of a given type. They can be used like this (similar to JavaScript's spread syntax):
+
+### Request
+
+```javascript
+mutation {
+  deletePerson(attr: "Spongebob") {
+    ...personFields
+  }
+}
+
+fragment personFields on Person {
+  id
+  name
+  hairColor
+  hairStyle
+  hat
+  nose
+  beard
+  gender
+  glasses
+  eyeColor
+  mouth
+}
+```
+### Response
+
+```javascript
+{
+  "data": {
+    "deletePerson": {
+      "id": 30,
       "name": "Spongebob",
       "hairColor": "BLACK",
       "hairStyle": "BALD",
