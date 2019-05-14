@@ -1,7 +1,7 @@
 const persons = [
     {
         id: 1,
-        name: "Alex",
+        name: "ALEX",
         hairColor: "BLACK",
         hairStyle: "SHORT",
         hat: false,
@@ -14,7 +14,7 @@ const persons = [
     },
     {
         id: 2,
-        name: "Alfred",
+        name: "ALFRED",
         hairColor: "RED",
         hairStyle: "LONG",
         hat: false,
@@ -27,7 +27,7 @@ const persons = [
     },
     {
         id: 3,
-        name: "Anita",
+        name: "ANITA",
         hairColor: "BLOND",
         hairStyle: "LONG",
         hat: false,
@@ -40,7 +40,7 @@ const persons = [
     },
     {
         id: 4,
-        name: "Anne",
+        name: "ANNE",
         hairColor: "BLACK",
         hairStyle: "SHORT",
         hat: false,
@@ -53,7 +53,7 @@ const persons = [
     },
     {
         id: 5,
-        name: "Bernard",
+        name: "BERNARD",
         hairColor: "BROWN",
         hairStyle: "SHORT",
         hat: true,
@@ -66,7 +66,7 @@ const persons = [
     },
     {
         id: 6,
-        name: "Bill",
+        name: "BILL",
         hairColor: "RED",
         hairStyle: "BALD",
         hat: false,
@@ -79,7 +79,7 @@ const persons = [
     },
     {
         id: 7,
-        name: "Charles",
+        name: "CHARLES",
         hairColor: "BLOND",
         hairStyle: "SHORT",
         hat: false,
@@ -92,7 +92,7 @@ const persons = [
     },
     {
         id: 8,
-        name: "Claire",
+        name: "CLAIRE",
         hairColor: "RED",
         hairStyle: "SHORT",
         hat: true,
@@ -105,7 +105,7 @@ const persons = [
     },
     {
         id: 9,
-        name: "David",
+        name: "DAVID",
         hairColor: "BLOND",
         hairStyle: "SHORT",
         hat: false,
@@ -118,7 +118,7 @@ const persons = [
     },
     {
         id: 10,
-        name: "Eric",
+        name: "ERIC",
         hairColor: "BLOND",
         hairStyle: "SHORT",
         hat: true,
@@ -131,7 +131,7 @@ const persons = [
     },
     {
         id: 11,
-        name: "Frans",
+        name: "FRANS",
         hairColor: "RED",
         hairStyle: "SHORT",
         hat: false,
@@ -144,7 +144,7 @@ const persons = [
     },
     {
         id: 12,
-        name: "George",
+        name: "GEORGE",
         hairColor: "WHITE",
         hairStyle: "SHORT",
         hat: true,
@@ -157,7 +157,7 @@ const persons = [
     },
     {
         id: 13,
-        name: "Herman",
+        name: "HERMAN",
         hairColor: "RED",
         hairStyle: "BALD",
         hat: false,
@@ -170,7 +170,7 @@ const persons = [
     },
     {
         id: 14,
-        name: "Joe",
+        name: "JOE",
         hairColor: "BLOND",
         hairStyle: "SHORT",
         hat: false,
@@ -183,7 +183,7 @@ const persons = [
     },
     {
         id: 15,
-        name: "Maria",
+        name: "MARIA",
         hairColor: "BROWN",
         hairStyle: "LONG",
         hat: true,
@@ -196,7 +196,7 @@ const persons = [
     },
     {
         id: 16,
-        name: "Max",
+        name: "MAX",
         hairColor: "BLACK",
         hairStyle: "SHORT",
         hat: false,
@@ -209,7 +209,7 @@ const persons = [
     },
     {
         id: 17,
-        name: "Paul",
+        name: "PAUL",
         hairColor: "WHITE",
         hairStyle: "SHORT",
         hat: false,
@@ -222,7 +222,7 @@ const persons = [
     },
     {
         id: 18,
-        name: "Peter",
+        name: "PETER",
         hairColor: "WHITE",
         hairStyle: "SHORT",
         hat: false,
@@ -235,7 +235,7 @@ const persons = [
     },
     {
         id: 19,
-        name: "Philip",
+        name: "PHILIP",
         hairColor: "BLACK",
         hairStyle: "SHORT",
         hat: false,
@@ -248,7 +248,7 @@ const persons = [
     },
     {
         id: 20,
-        name: "Richard",
+        name: "RICHARD",
         hairColor: "BROWN",
         hairStyle: "BALD",
         hat: false,
@@ -261,7 +261,7 @@ const persons = [
     },
     {
         id: 21,
-        name: "Robert",
+        name: "ROBERT",
         hairColor: "BROWN",
         hairStyle: "SHORT",
         hat: false,
@@ -274,7 +274,7 @@ const persons = [
     },
     {
         id: 22,
-        name: "Sam",
+        name: "SAM",
         hairColor: "WHITE",
         hairStyle: "BALD",
         hat: false,
@@ -287,7 +287,7 @@ const persons = [
     },
     {
         id: 23,
-        name: "Susan",
+        name: "SUSAN",
         hairColor: "WHITE",
         hairStyle: "LONG",
         hat: false,
@@ -300,7 +300,7 @@ const persons = [
     },
     {
         id: 24,
-        name: "Tom",
+        name: "TOM",
         hairColor: "BLACK",
         hairStyle: "BALD",
         hat: false,

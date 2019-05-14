@@ -212,12 +212,10 @@ const resolvers = {
 
             if (myPerson.beard) {
                 state.message = `Yes, my person has a beard.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.beard);
+                eliminate('beard', true, true);
             } else {
                 state.message = `No, my person does not have a beard.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => !person.beard);
+                eliminate('beard', true, false);
             }
 
             checkState();
@@ -228,12 +226,10 @@ const resolvers = {
 
             if (args.attr === myPerson.gender) {
                 state.message = `Yes, my person is ${args.attr.toLowerCase()}.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.gender === args.attr);
+                eliminate('gender', args.attr, true);
             } else {
                 state.message = `No, my person is not ${args.attr.toLowerCase()}.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.gender !== args.attr);
+                eliminate('gender', args.attr, false);
             }
 
             checkState();
@@ -244,12 +240,10 @@ const resolvers = {
 
             if (myPerson.glasses) {
                 state.message = `Yes, my person wears glasses.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.glasses);
+                eliminate('glasses', true, true);
             } else {
                 state.message = `No, my person does not wear glasses.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => !person.glasses);
+                eliminate('glasses', true, false);
             }
 
             checkState();
@@ -260,12 +254,10 @@ const resolvers = {
 
             if (args.attr === myPerson.eyeColor) {
                 state.message = `Yes, my person has ${args.attr.toLowerCase()} eyes.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.eyeColor === args.attr);
+                eliminate('eyeColor', args.attr, true);
             } else {
                 state.message = `No, my person does not have ${args.attr.toLowerCase()} eyes.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.eyeColor !== args.attr);
+                eliminate('eyeColor', args.attr, false);
             }
 
             checkState();
@@ -276,12 +268,10 @@ const resolvers = {
 
             if (args.attr === myPerson.mouth) {
                 state.message = `Yes, my person has a ${args.attr.toLowerCase()} mouth.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.mouth === args.attr);
+                eliminate('mouth', args.attr, true);
             } else {
                 state.message = `No, my person does not have a ${args.attr.toLowerCase()} mouth.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.mouth !== args.attr);
+                eliminate('mouth', args.attr, true);
             }
 
             checkState();
@@ -289,18 +279,18 @@ const resolvers = {
         },
         name: (parent, args, ctx, info) => {
             state.turn++;
+            let name = args.attr.toUpperCase();
 
-            if (!names.includes(args.attr.toUpperCase())) {
-                state.message = `Sorry, never heard of someone called ${args.attr.toUpperCase()}`;
+            if (!names.includes(name)) {
+                state.message = `Sorry, never heard of someone called ${name}`;
                 return state;
             }
 
-            if (args.attr.toUpperCase() === myPerson.name.toUpperCase()) {
-                state.personsLeft = [myPerson];
+            if (name === myPerson.name.toUpperCase()) {
+                eliminate('name', name, true);
             } else {
                 state.message = `No, ${args.attr} is not the one you are looking for.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.name.toUpperCase() !== args.attr.toUpperCase());
+                eliminate('name', name, false);
             }
 
             checkState();
@@ -317,7 +307,7 @@ const resolvers = {
         addPerson: (parent, args, ctx, info) => {
             let person = {
                 id: ++id,
-                name: args.attr.name,
+                name: args.attr.name.toUpperCase(),
                 hairColor: args.attr.hairColor,
                 hairStyle: args.attr.hairStyle,
                 hat: args.attr.hat,
