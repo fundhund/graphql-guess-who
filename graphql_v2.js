@@ -8,8 +8,18 @@ let message = '';
 let state = {
     personsLeft,
     turn,
-    message
+    message,
+    reset: () => {
+        state.personsLeft = db;
+        state.turn = 0;
+        state.message = 'New game.';
+    }
 };
+
+let names = ['Alex', 'Alfred', 'Anita', 'Anne', 'Bernard', 'Bill',
+    'Charles', 'Claire', 'David', 'Eric', 'Frans', 'George', 'Herman',
+    'Joe', 'Herman', 'Joe', 'Maria', 'Max', 'Paul', 'Peter', 'Philip',
+    'Richard', 'Robert', 'Sam', 'Susan', 'Tom'];
 
 // Choose random person
 const randomNumber = Math.floor(Math.random() * (db.length + 1)); 
@@ -54,7 +64,8 @@ const typeDefs = `
         glasses: State!
         eyeColor(attr: EyeColor!): State!
         mouth(attr: Size!): State!
-        name(attr: Name!): State!
+        name(attr: String!): State!
+        restart: State!
     }
 
     enum HairColor {
@@ -79,38 +90,12 @@ const typeDefs = `
     enum Gender {
         FEMALE
         MALE
+        DIVERSE
     }
 
     enum EyeColor {
         BLUE
         BROWN
-    }
-
-    enum Name {
-        ALEX
-        ALFRED
-        ANITA
-        ANNE
-        BERNARD
-        BILL
-        CHARLES
-        CLAIRE
-        DAVID
-        ERIC
-        FRANS
-        GEORGE
-        HERMAN
-        JOE
-        MARIA
-        MAX
-        PAUL
-        PETER
-        PHILIP
-        RICHARD
-        ROBERT
-        SAM
-        SUSAN
-        TOM
     }
 `;
 
@@ -271,7 +256,7 @@ const resolvers = {
         name: (parent, args, ctx, info) => {
             state.turn++;
 
-            if (args.attr === myPerson.name.toUpperCase()) {
+            if (args.attr.toUpperCase() === myPerson.name.toUpperCase()) {
                 state.personsLeft = [myPerson];
             } else {
                 state.message = `No, ${args.attr} is not the one you are looking for.`;
@@ -282,6 +267,10 @@ const resolvers = {
             checkState();
             return state;
         },
+        restart: (parent, args, ctx, info) => {
+            state.reset();
+            return state;
+        }
     }
 }
 
@@ -291,5 +280,5 @@ const server = new GraphQLServer({
 });
 
 server.start(() => {
-    console.log('Server is up!');
+    console.log('Server is up! Good luck!');
 })
