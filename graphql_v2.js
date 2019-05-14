@@ -34,11 +34,16 @@ let myPerson = getRandomPerson();
 
 function checkState() {
     
-    pubsub.publish();
+    state.eliminated.forEach(person => {
+        let message = `${person.name} has been elimiated in round ${state.turn}. You lose!`;
+        pubsub.publish(person.name, { betOnPerson: message });
+    });
 
     if (state.personsLeft.length === 1) {
         state.message =
-            `Congratulations! You found out that I thought of ${myPerson.name.toUpperCase()} in ${state.turn} turns!`
+            `Congratulations! You found out that I thought of ${myPerson.name.toUpperCase()} in ${state.turn} turns!`;
+        let message = `It's ${state.personsLeft[0].name}! You win!`;
+        pubsub.publish(state.personsLeft[0].name, { betOnPerson: message });
     }
 }
 
@@ -94,7 +99,7 @@ const typeDefs = `
     }
 
     type Subscription {
-        betOnPerson(attr: String!): String!
+        betOnPerson(attr: String!): String
     }
 
     input PersonInput {
@@ -271,7 +276,7 @@ const resolvers = {
                 eliminate('mouth', args.attr, true);
             } else {
                 state.message = `No, my person does not have a ${args.attr.toLowerCase()} mouth.`;
-                eliminate('mouth', args.attr, true);
+                eliminate('mouth', args.attr, false);
             }
 
             checkState();
@@ -343,9 +348,6 @@ const resolvers = {
     Subscription: {
         betOnPerson: {
             subscribe: (parent, { attr }, { db, pubsub }, info) => {
-
-                
-
                 return pubsub.asyncIterator(`${attr.toUpperCase()}`);
             }
         }
