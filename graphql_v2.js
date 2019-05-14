@@ -16,11 +16,6 @@ let state = {
     }
 };
 
-// let names = ['Alex', 'Alfred', 'Anita', 'Anne', 'Bernard', 'Bill',
-//     'Charles', 'Claire', 'David', 'Eric', 'Frans', 'George', 'Herman',
-//     'Joe', 'Herman', 'Joe', 'Maria', 'Max', 'Paul', 'Peter', 'Philip',
-//     'Richard', 'Robert', 'Sam', 'Susan', 'Tom'];
-
 let names = db.map(person => person.name.toUpperCase());
 let id = db.length;
 
@@ -72,7 +67,8 @@ const typeDefs = `
     }
 
     type Mutation {
-        addPerson(attr: PersonInput!): Person!
+        addPerson(attr: PersonInput!): Person
+        deletePerson(attr: String!): Person
     }
 
     input PersonInput {
@@ -314,8 +310,19 @@ const resolvers = {
                 mouth: args.attr.mouth
             }
 
-            db.push(person);
-            state.reset();
+            if (db.some(person => person.name.toUpperCase() === args.attr.name.toUpperCase())) {
+                return null;
+            } else {
+                db.push(person);
+                state.reset();
+    
+                return person;
+            }
+        },
+        deletePerson: (parent, args, ctx, info) => {
+            let person = db.find(person => person.name.toUpperCase() === args.attr.toUpperCase());
+
+            db.splice(db.indexOf(person), 1);
 
             return person;
         }
