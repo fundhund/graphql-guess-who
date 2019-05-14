@@ -1,18 +1,24 @@
-const { GraphQLServer } = require('graphql-yoga');
+const { GraphQLServer, PubSub } = require('graphql-yoga');
 const db = require('./db');
+
+const pubsub = new PubSub();
 
 let personsLeft = db;
 let turn = 0;
 let message = '';
+let eliminated = [];
 
 let state = {
     personsLeft,
+
     turn,
     message,
+    eliminated,
     reset: () => {
         state.personsLeft = db;
         state.turn = 0;
         state.message = 'New game.';
+        eliminated = [];
     }
 };
 
@@ -27,10 +33,22 @@ function getRandomPerson() {
 let myPerson = getRandomPerson(); 
 
 function checkState() {
+    
+    pubsub.publish();
+
     if (state.personsLeft.length === 1) {
         state.message =
             `Congratulations! You found out that I thought of ${myPerson.name.toUpperCase()} in ${state.turn} turns!`
     }
+}
+
+function eliminate(prop, value, hasValue) {
+    state.eliminated = hasValue ?
+        state.personsLeft.filter(person => person[prop] !== value) :
+        state.personsLeft.filter(person => person[prop] === value);
+
+    state.personsLeft = state.personsLeft
+        .filter(person => !state.eliminated.includes(person));
 }
 
 const typeDefs = `
@@ -50,6 +68,7 @@ const typeDefs = `
 
     type State {
         personsLeft: [Person!]!
+        eliminated: [Person!]!
         turn: Int!
         message: String!
     }
@@ -72,6 +91,10 @@ const typeDefs = `
     type Mutation {
         addPerson(attr: PersonInput!): Person
         deletePerson(attr: String!): Person
+    }
+
+    type Subscription {
+        betOnPerson(attr: String!): String!
     }
 
     input PersonInput {
@@ -129,12 +152,10 @@ const resolvers = {
 
             if (args.attr === myPerson.hairColor) {
                 state.message = `Yes, my person has ${args.attr.toLowerCase()} hair.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.hairColor === args.attr);
+                eliminate('hairColor', args.attr, true);
             } else {
                 state.message = `No, my person does not have ${args.attr.toLowerCase()} hair.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.hairColor !== args.attr);
+                eliminate('hairColor', args.attr, false);
             }
 
             checkState();
@@ -147,14 +168,12 @@ const resolvers = {
                 state.message = args.attr === 'BALD' ?
                     `Yes, my person is bald.` :
                     `Yes, my person has ${args.attr.toLowerCase()} hair.`
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.hairStyle === args.attr);
+                eliminate('hairStyle', args.attr, true);
             } else {
                 state.message = args.attr === 'BALD' ?
                     `No, my person is not bald.` :
                     `No, my person does not have ${args.attr.toLowerCase()} hair.`
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.hairStyle !== args.attr);
+                eliminate('hairStyle', args.attr, false);
             }
 
             checkState();
@@ -165,12 +184,10 @@ const resolvers = {
 
             if (myPerson.hat) {
                 state.message = `Yes, my person wears a hat.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.hat);
+                eliminate('hat', true, true);
             } else {
                 state.message = `No, my person does not wear a hat.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => !person.hat);
+                eliminate('hat', true, false);
             }
 
             checkState();
@@ -181,12 +198,10 @@ const resolvers = {
 
             if (args.attr === myPerson.nose) {
                 state.message = `Yes, my person has a ${args.attr.toLowerCase()} nose.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.nose === args.attr);
+                eliminate('nose', args.attr, true);
             } else {
                 state.message = `No, my person does not have a ${args.attr.toLowerCase()} nose.`;
-                state.personsLeft = state.personsLeft
-                    .filter(person => person.nose !== args.attr);
+                eliminate('nose', args.attr, false);
             }
 
             checkState();
@@ -285,7 +300,7 @@ const resolvers = {
             } else {
                 state.message = `No, ${args.attr} is not the one you are looking for.`;
                 state.personsLeft = state.personsLeft
-                    .filter(person => person.name.toUpperCase() !== args.attr);
+                    .filter(person => person.name.toUpperCase() !== args.attr.toUpperCase());
             }
 
             checkState();
@@ -333,12 +348,27 @@ const resolvers = {
                 return person;
             }
         }
+    },
+
+    Subscription: {
+        betOnPerson: {
+            subscribe: (parent, { attr }, { db, pubsub }, info) => {
+
+                
+
+                return pubsub.asyncIterator(`${attr.toUpperCase()}`);
+            }
+        }
     }
 }
 
 const server = new GraphQLServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: {
+        db,
+        pubsub
+    }
 });
 
 server.start(() => {
