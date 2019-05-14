@@ -38,6 +38,7 @@ beard
 ```javascript
 gender(attr: FEMALE)
 gender(attr: MALE)
+gender(attr: DIVERSE)
 ```
 
 ```javascript

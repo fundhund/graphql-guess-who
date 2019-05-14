@@ -71,6 +71,23 @@ const typeDefs = `
         restart: State!
     }
 
+    type Mutation {
+        addPerson(attr: PersonInput!): Person!
+    }
+
+    input PersonInput {
+        name: String!
+        hairColor: HairColor!
+        hairStyle: HairStyle!
+        hat: Boolean!
+        nose: Size!
+        beard: Boolean!
+        gender: Gender!
+        glasses: Boolean!
+        eyeColor: EyeColor!
+        mouth: Size!
+    }
+
     enum HairColor {
         BLACK
         BLOND
@@ -278,6 +295,29 @@ const resolvers = {
         restart: (parent, args, ctx, info) => {
             state.reset();
             return state;
+        }
+    },
+
+    Mutation: {
+        addPerson: (parent, args, ctx, info) => {
+            let person = {
+                id: ++id,
+                name: args.attr.name,
+                hairColor: args.attr.hairColor,
+                hairStyle: args.attr.hairStyle,
+                hat: args.attr.hat,
+                nose: args.attr.nose,
+                beard: args.attr.beard,
+                gender: args.attr.gender,
+                glasses: args.attr.glasses,
+                eyeColor: args.attr.eyeColor,
+                mouth: args.attr.mouth
+            }
+
+            db.push(person);
+            state.reset();
+
+            return person;
         }
     }
 }
