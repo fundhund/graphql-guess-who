@@ -285,7 +285,6 @@ const resolvers = {
     }
 }
 
-
 const server = new GraphQLServer({
     typeDefs,
     resolvers
