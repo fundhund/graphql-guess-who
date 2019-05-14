@@ -465,3 +465,35 @@ fragment personFields on Person {
   }
 }
 ```
+---
+
+## Betting on a person (Subscription)
+
+Anytime during the game, you can bet on a person. You're informed about the result as soon as your person is either eliminated or the last one left.
+
+### Request
+
+```javascript
+subscription {
+  betOnPerson(attr: "Claire")
+}
+```
+### Response (right choice)
+
+```javascript
+{
+  "data": {
+    "betOnPerson": "It's CLAIRE! You win!"
+  }
+}
+```
+
+### Response (wrong choice)
+
+```javascript
+{
+  "data": {
+    "betOnPerson": "CLAIRE has been elimiated in round 1. You lose!"
+  }
+}
+```
