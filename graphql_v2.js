@@ -16,10 +16,13 @@ let state = {
     }
 };
 
-let names = ['Alex', 'Alfred', 'Anita', 'Anne', 'Bernard', 'Bill',
-    'Charles', 'Claire', 'David', 'Eric', 'Frans', 'George', 'Herman',
-    'Joe', 'Herman', 'Joe', 'Maria', 'Max', 'Paul', 'Peter', 'Philip',
-    'Richard', 'Robert', 'Sam', 'Susan', 'Tom'];
+// let names = ['Alex', 'Alfred', 'Anita', 'Anne', 'Bernard', 'Bill',
+//     'Charles', 'Claire', 'David', 'Eric', 'Frans', 'George', 'Herman',
+//     'Joe', 'Herman', 'Joe', 'Maria', 'Max', 'Paul', 'Peter', 'Philip',
+//     'Richard', 'Robert', 'Sam', 'Susan', 'Tom'];
+
+let names = db.map(person => person.name.toUpperCase());
+let id = db.length;
 
 // Choose random person
 const randomNumber = Math.floor(Math.random() * (db.length + 1)); 
@@ -255,6 +258,11 @@ const resolvers = {
         },
         name: (parent, args, ctx, info) => {
             state.turn++;
+
+            if (!names.includes(args.attr.toUpperCase())) {
+                state.message = `Sorry, never heard of someone called ${args.attr.toUpperCase()}`;
+                return state;
+            }
 
             if (args.attr.toUpperCase() === myPerson.name.toUpperCase()) {
                 state.personsLeft = [myPerson];

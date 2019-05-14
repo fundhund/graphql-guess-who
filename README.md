@@ -246,7 +246,7 @@ It is also possible to guess a name directly:
 
 ```javascript
 query {
-  name(attr: ERIC) {
+  name(attr: "Eric") {
     turn
     message
     personsLeft {
@@ -255,7 +255,5 @@ query {
   }
 }
 ```
-
-Names are enums and have to be written in all caps.
 
 ---
