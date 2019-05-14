@@ -19,9 +19,12 @@ let state = {
 let names = db.map(person => person.name.toUpperCase());
 let id = db.length;
 
-// Choose random person
-const randomNumber = Math.floor(Math.random() * (db.length + 1)); 
-let myPerson = db[randomNumber];
+function getRandomPerson() {
+    const randomNumber = Math.floor(Math.random() * (db.length + 1)); 
+    return db[randomNumber];
+}
+
+let myPerson = getRandomPerson(); 
 
 function checkState() {
     if (state.personsLeft.length === 1) {
@@ -290,6 +293,7 @@ const resolvers = {
         },
         restart: (parent, args, ctx, info) => {
             state.reset();
+            myPerson = getRandomPerson();
             return state;
         }
     },
